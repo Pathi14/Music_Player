@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:musicefreixdevgrp22024/globale.dart';
+import 'package:musicefreixdevgrp22024/view/add_musique.dart';
 import 'package:musicefreixdevgrp22024/view/my_profil_page.dart';
 
 
 class MyDashBoard extends StatefulWidget {
-  String email;
-  MyDashBoard({super.key,required this.email});
+  const MyDashBoard({super.key});
 
   @override
   State<MyDashBoard> createState() => _MyDashBoardState();
@@ -25,7 +26,15 @@ class _MyDashBoardState extends State<MyDashBoard> {
 
       ),
       appBar: AppBar(
-        title: Text(widget.email),
+        title: Text("Bienvenue ${monUtilisateur.email}"),
+        actions:[
+          IconButton(
+            icon:Icon(Icons.add),
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> AddMusic()));
+            },
+          )
+        ],
         centerTitle: true,
       ),
       body: bodyPage(),
@@ -34,8 +43,6 @@ class _MyDashBoardState extends State<MyDashBoard> {
           setState(() {
             tappedIcon = value;
           });
-
-
         },
         currentIndex: tappedIcon,
         items: const [

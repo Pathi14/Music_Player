@@ -1,8 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:musicefreixdevgrp22024/controller/firebase_helper.dart';
+import 'package:musicefreixdevgrp22024/controller/myPermissionImage.dart';
 import 'package:musicefreixdevgrp22024/controller/my_animation.dart';
+import 'package:musicefreixdevgrp22024/firebase_options.dart';
+import 'package:musicefreixdevgrp22024/globale.dart';
 import 'package:musicefreixdevgrp22024/view/my_dash_board.dart';
+import 'package:musicefreixdevgrp22024/view/play_musique.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  //MyPermissionImage().init();
   runApp(const MyApp());
 }
 
@@ -33,7 +44,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      home: const PlayMusique(),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -86,8 +99,8 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 //image
                 Container(
-                  height: 450,
-                  width: 300,
+                  height: 300,
+                  width: 250,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       image: const DecorationImage(
@@ -105,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 MyAnimation(
                   time: 1,
                   child: SizedBox(
-                    width: 400,
+                    width: 300,
                     child: TextField(
                       controller: mail,
                       decoration: InputDecoration(
@@ -158,8 +171,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       ElevatedButton(
                         child: const Text("Connexion"),
                         onPressed: (){
+                          MyFirebaseHelper().connect(mail.text, pass.text).then((onValue){
 
-                          Navigator.push(context,MaterialPageRoute(builder: (context)=> MyDashBoard(email: mail.text,)));
+                            setState(() {
+                              monUtilisateur = onValue;
+                            });
+
+                            Navigator.push(context,MaterialPageRoute(builder: (context)=> MyDashBoard()));
+
+                          }).catchError((onError){
+                            //afficher un popo up
+                          });
+
                         },
                       ),
 
@@ -167,6 +190,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       TextButton(
                         child: const Text("Inscription"),
                         onPressed: (){
+                          MyFirebaseHelper().register(mail.text, pass.text).then((onValue){
+                            setState(() {
+                              monUtilisateur = onValue;
+                            });
+
+                            Navigator.push(context,MaterialPageRoute(builder: (context)=> MyDashBoard()));
+                          }).catchError((onError){
+                            //afficher un popo up
+                          });
 
                         },
                       ),

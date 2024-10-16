@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "181396327860",
+    "project_id": "pavdev-e991f",
+    "storage_bucket": "pavdev-e991f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181396327860:android:b44209fced6d389bbbf6e1",
+        "android_client_info": {
+          "package_name": "com.mus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkLLEKXBebwv1h9mLAOKrtAvoexAE7jUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181396327860:android:6845874667cfc4d9bbf6e1",
+        "android_client_info": {
+          "package_name": "com.musique.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkLLEKXBebwv1h9mLAOKrtAvoexAE7jUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
