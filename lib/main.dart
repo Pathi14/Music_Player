@@ -5,6 +5,7 @@ import 'package:musicefreixdevgrp22024/controller/myPermissionImage.dart';
 import 'package:musicefreixdevgrp22024/controller/my_animation.dart';
 import 'package:musicefreixdevgrp22024/firebase_options.dart';
 import 'package:musicefreixdevgrp22024/globale.dart';
+import 'package:musicefreixdevgrp22024/view/favorites.dart';
 import 'package:musicefreixdevgrp22024/view/my_dash_board.dart';
 import 'package:musicefreixdevgrp22024/view/play_musique.dart';
 
@@ -45,8 +46,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const PlayMusique(),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const Favorites(),
+      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

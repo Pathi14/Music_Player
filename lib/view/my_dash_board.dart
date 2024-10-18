@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:musicefreixdevgrp22024/globale.dart';
 import 'package:musicefreixdevgrp22024/view/add_musique.dart';
+import 'package:musicefreixdevgrp22024/view/all_music.dart';
 import 'package:musicefreixdevgrp22024/view/my_profil_page.dart';
 
 
@@ -69,7 +70,7 @@ class _MyDashBoardState extends State<MyDashBoard> {
 
   Widget bodyPage(){
     switch (tappedIcon){
-      case 0 : return const Text("Toutes les personnes");
+      case 0 : return const AllMusic();
       case 1 : return const Text("Mes favoris");
       case 2 : return const Text("Mes paramètres");
       default: return const Text("Erreur");

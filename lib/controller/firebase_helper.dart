@@ -53,7 +53,7 @@ class MyFirebaseHelper{
   }
 
   //stocker l'image
-  Future <String>uploadData({required String dossier, required uid, required String nomData, required Uint8List bytesData, required uuid}) async{
+  Future <String>uploadData({required String dossier, required String nomData, required Uint8List bytesData, required uuid}) async{
     //deposer les données
     TaskSnapshot snap = await mesStorages.ref("$dossier/$uuid/$nomData").putData(bytesData);
 
@@ -61,6 +61,11 @@ class MyFirebaseHelper{
     String urlData = await snap.ref.getDownloadURL();
 
     return urlData;
+
+  }
+
+  updateUser(String uid,Map<String,dynamic> data){
+    mesUtilisateurs.doc(uid).update(data);
 
   }
   

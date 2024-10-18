@@ -17,35 +17,40 @@ class _AddMusicState extends State<AddMusic> {
   //attributs
   TextEditingController musicName = TextEditingController();
   TextEditingController autor = TextEditingController();
+  bool choice = true;
   String? lienImage;
   String? nameImage;
   //données de l'image
   Uint8List? byteImage;
-  
+  String? lienSong;
+  String? nameSong;
+  Uint8List? byteSong;
+  bool isLoading = false;
 
   //methode
   //upload l'image
   UploadPicture() async{
     FilePickerResult? resultat = await FilePicker.platform.pickFiles(
       withData: true,
-      type: FileType.image
+      type: (choice) ? FileType.image : FileType.audio
     );
     if(resultat!=null){
-      nameImage = resultat.files.first.name;
-      byteImage = resultat.files.first.bytes;
-      popUpImage();
-    }
-  }
-
-  UploadMusic() async{
-    FilePickerResult? resultat = await FilePicker.platform.pickFiles(
-      withData: true,
-      type: FileType.audio
-    );
-    if(resultat!=null){
-      nameImage = resultat.files.first.name;
-      byteImage = resultat.files.first.bytes;
-      popUpImage();
+      if(choice){
+        nameImage = resultat.files.first.name;
+        byteImage = resultat.files.first.bytes;
+        popUpImage();
+      }
+      else{
+        nameSong = resultat.files.first.name;
+        byteSong = resultat.files.first.bytes;
+        MyFirebaseHelper().uploadData(dossier: "SONG", nomData: nameSong!, bytesData: byteSong!, uuid: monUtilisateur.uid).then((onValue){
+            setState(() {                
+              lienSong = onValue;
+              print(lienSong);
+              isLoading = true;
+            });
+        });
+      }
     }
   }
 
@@ -66,9 +71,11 @@ class _AddMusicState extends State<AddMusic> {
             ),
             TextButton(
               onPressed: (){
-                // MyFirebaseHelper().uploadData(dossier:"IMAGES",uuid: monUtilusateur.uid,nomData : nameImage!,byteData:byteImage!).then((onValue){
-                //   lienImage = onValue;
-                // });
+                MyFirebaseHelper().uploadData(dossier:"IMAGES",uuid: monUtilisateur.uid,nomData : nameImage!,bytesData:byteImage!).then((onValue){
+                  setState(() {                    
+                    lienImage = onValue;
+                  });
+                });
                 Navigator.pop(context);
               }, 
               child: Text("Valider")
@@ -116,40 +123,38 @@ class _AddMusicState extends State<AddMusic> {
               Spacer(),
               TextButton(
                 onPressed: (){
-                  UploadPicture();                  
+                  UploadPicture();  
                 }, 
                 child: Text("Ajouter l'image'")
               ),
               Spacer(),
               TextButton(
                 onPressed: (){
-                  UploadMusic();
+                  choice = false;
+                  UploadPicture();
                 }, 
                 child: const Text("Ajouter le son")
               ),
               Spacer(),
-              TextButton(
+              (isLoading) ? Container(
+                child: TextButton(
                 onPressed: (){
-                  Map<String, dynamic> map = {
-                    "AUTEUR": autor.text,
-                    "NOM": musicName.text,
-                    "LIEN": lienImage
-                  };
-                  String uid = randomAlphaNumeric(20);
-
-                  MyFirebaseHelper().addMusic(uid, map);
-
-                  // MyFirebaseHelper().uploadData(
-                  //   dossier: "IMAGES", 
-                  //   uuid: monUtilisateur.uid,
-                  //   nomData: nameImage!, 
-                  //   bytesData: byteImage!, 
-                  // ).then((onValue){
-                  //   lienImage = onValue;
-                  // });
+                  print(
+                    "données auteur ${autor.text} nom ${musicName.text} image ${lienImage} song ${lienSong}"
+                  );
+                  if(lienSong != null && autor.text != ""){
+                    Map<String, dynamic> map = {
+                      "AUTEUR": autor.text,
+                      "NOM": musicName.text,
+                      "LIEN": lienImage,
+                      "SONG": lienSong,
+                    };
+                    String uid = randomAlphaNumeric(20);
+                    MyFirebaseHelper().addMusic(uid, map);
+                  }
                 }, 
                 child: Text("Valider")
-              ),
+              )): Container(),
           ],
         ),
       ),

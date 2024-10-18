@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:musicefreixdevgrp22024/globale.dart';
 
 class MyMucic{
@@ -18,6 +19,15 @@ class MyMucic{
     pochette = "";
     style = MyStyleMusic.disco;
     link = "";
+  }
+
+  MyMucic.dbb(DocumentSnapshot snap){
+    uid = snap.id;
+    Map <String, dynamic> map = snap.data() as Map <String, dynamic>;
+    nom = map["NOM"];
+    auteur = map["AUTEUR"];
+    pochette = map["LIEN"];
+    link = map["SONG"];
   }
 
 }
